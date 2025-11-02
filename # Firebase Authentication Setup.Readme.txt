@@ -1,0 +1,83 @@
+# Firebase Authentication Setup  
+Created by Sarvang Toraskar  
+
+## Overview  
+This guide sets up Firebase Authentication in your app for signup, login, and logout functionality.
+
+## Prerequisites  
+- Node.js and npm installed  
+- Firebase account created  
+
+## 1. Install Firebase  
+Run this command in your project folder:  
+npm install firebase
+
+## 2. Setup Firebase Configuration  
+Create a file named firebaseConfig.js and paste this code:  
+
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+
+## 3. Signup Function  
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+
+export async function signupUser(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User signed up:", userCredential.user);
+  } catch (error) {
+    console.error("Signup error:", error.message);
+  }
+}
+
+## 4. Login Function  
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+
+export async function loginUser(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User logged in:", userCredential.user);
+  } catch (error) {
+    console.error("Login error:", error.message);
+  }
+}
+
+## 5. Logout Function  
+import { signOut } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+
+export async function logoutUser() {
+  try {
+    await signOut(auth);
+    console.log("User logged out");
+  } catch (error) {
+    console.error("Logout error:", error.message);
+  }
+}
+
+## 6. Enable Authentication  
+In Firebase Console:
+1. Go to Build → Authentication → Sign-in Method  
+2. Enable Email/Password or any other method you want  
+
+## 7. Test the Authentication  
+- Create simple input fields for email and password  
+- Call signupUser, loginUser, and logoutUser functions accordingly  
+
+## Author  
+Sarvang Toraskar  
+Backend Developer & AI Enthusiast
